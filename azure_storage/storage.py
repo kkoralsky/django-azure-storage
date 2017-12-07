@@ -1,4 +1,5 @@
 import mimetypes
+import magic
 import datetime
 
 from azure.common import AzureMissingResourceHttpError
@@ -26,6 +27,7 @@ class AzureStorage(Storage):
     account_key = settings.AZURE_STORAGE.get('ACCOUNT_KEY')
     cdn_host = settings.AZURE_STORAGE.get('CDN_HOST')
     use_ssl = settings.AZURE_STORAGE.get('USE_SSL')
+    max_age = settings.AZURE_STORAGE.get('MAX_AGE')
 
     def __init__(self, account_name=None, account_key=None, container=None,
          use_ssl=None, cdn_host=None):
@@ -170,8 +172,8 @@ class AzureStorage(Storage):
         Azure.  Returns `None` by default to remain compatible with the
         default setting for the SDK.
         """
-
-        return None
+        if self.max_age is not None:
+            return 'max-age=%s' % self.max_age
 
     def size(self, name):
         """
