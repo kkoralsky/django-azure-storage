@@ -91,7 +91,7 @@ class AzureStorage(Storage):
         Use the Azure Storage service to write ``content`` to a remote file
         (called ``name``).
         """
-        
+
 
         content.open()
 
@@ -112,6 +112,7 @@ class AzureStorage(Storage):
             container_name=self.container,
             blob_name=name,
             stream=content,
+            count=content.size,
             x_ms_blob_content_type=content_type,
             cache_control=cache_control,
             x_ms_blob_cache_control=cache_control
